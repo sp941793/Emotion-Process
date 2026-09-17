@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Working Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#0B0A10;
+    --ink:#F5F0F7;
+    --ink-soft:#9E8FAE;
+    --line:#2E2438;
+    --income:#EC1E82;
+    --income-bg:#3A1229;
+    --creative:#B565F0;
+    --creative-bg:#2A1640;
+    --foundation:#6C7BD9;
+    --foundation-bg:#1E2242;
+    --rest:#E0609C;
+    --rest-bg:#3A1E2C;
+    --pmdd:#FF5C7A;
+    --pmdd-bg:#3D1A22;
+    --card:#161220;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    position:relative;
+  }
+  .orb{
+    position:fixed;
+    border-radius:50%;
+    filter:blur(70px);
+    opacity:0.32;
+    pointer-events:none;
+    z-index:0;
+  }
+  .orb-1{width:320px;height:320px;background:var(--income);top:-110px;left:-90px;animation:drift1 20s ease-in-out infinite;}
+  .orb-2{width:280px;height:280px;background:var(--creative);bottom:-90px;right:-80px;animation:drift2 24s ease-in-out infinite;}
+  .orb-3{width:220px;height:220px;background:var(--foundation);top:45%;right:-90px;opacity:0.2;animation:drift3 28s ease-in-out infinite;}
+  @keyframes drift1{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(40px,60px) scale(1.15);}}
+  @keyframes drift2{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-30px,-40px) scale(1.1);}}
+  @keyframes drift3{0%,100%{transform:translate(0,0);}50%{transform:translate(-50px,30px);}}
+  .wrap{max-width:640px;margin:0 auto;padding:28px 20px 60px;position:relative;z-index:1;}
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.9rem;
+    line-height:1.15;
+    margin:0 0 6px;
+    letter-spacing:-0.01em;
+    background:linear-gradient(100deg, var(--income), var(--creative));
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    display:inline-block;
+  }
+  .subhead{
+    color:var(--ink-soft);
+    font-size:0.98rem;
+    line-height:1.5;
+    margin:0 0 22px;
+    max-width:46ch;
+  }
+  .tabs{
+    display:flex;
+    gap:8px;
+    margin-bottom:26px;
+    border-bottom:1px solid var(--line);
+  }
+  .tab{
+    font-family:'Work Sans', sans-serif;
+    font-size:0.92rem;
+    font-weight:600;
+    background:none;
+    border:none;
+    padding:10px 4px 12px;
+    color:var(--ink-soft);
+    cursor:pointer;
+    border-bottom:2px solid transparent;
+    margin-right:18px;
+  }
+  .tab.active{
+    color:var(--ink);
+    border-bottom:2px solid var(--income);
+  }
+  .subtabs{display:flex;gap:8px;margin-bottom:16px;}
+  .subtab{
+    font-family:'Work Sans', sans-serif;
+    font-size:0.85rem;
+    font-weight:600;
+    background:rgba(22,18,32,0.5);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:7px 16px;
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .subtab.active{
+    color:#fff;
+    background:var(--income);
+    border-color:var(--income);
+  }
+  .view{display:none;}
+  .view.active{display:block;}
+
+  .day-card{
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:18px 18px 16px;
+    margin-bottom:14px;
+    background:rgba(22,18,32,0.62);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  }
+  .day-card.rest{background:var(--rest-bg);border-color:transparent;}
+  .day-name{
+    font-family:'Fraunces', serif;
+    font-size:1.2rem;
+    font-weight:600;
+    margin:0 0 2px;
+  }
+  .day-focus{
+    font-size:0.85rem;
+    color:var(--ink-soft);
+    margin:0 0 12px;
+  }
+  .block{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    padding:7px 0;
+    font-size:0.93rem;
+    line-height:1.4;
+    border-top:1px solid var(--line);
+  }
+  .block:first-of-type{border-top:none;}
+  .block{cursor:pointer;transition:opacity 0.15s;}
+  .block.done{opacity:0.4;text-decoration:line-through;}
+  .day-card.is-today{
+    border:1px solid var(--income);
+    box-shadow:0 0 0 1px var(--income), 0 0 24px rgba(236,30,130,0.25);
+  }
+  .today-badge{
+    display:inline-block;
+    font-size:0.68rem;
+    font-weight:600;
+    color:var(--income);
+    background:var(--income-bg);
+    padding:2px 8px;
+    border-radius:20px;
+    margin-left:8px;
+    vertical-align:middle;
+  }
+  .notes-toggle{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    background:none;
+    border:none;
+    color:var(--ink-soft);
+    font-family:'Work Sans', sans-serif;
+    font-size:0.85rem;
+    font-weight:600;
+    cursor:pointer;
+    padding:10px 0;
+    width:100%;
+  }
+  .notes-toggle .chev{transition:transform 0.2s;display:inline-block;}
+  .notes-toggle.open .chev{transform:rotate(90deg);}
+  .notes-body{display:none;}
+  .notes-body.open{display:block;}
+
+  /* Cycle tab */
+  .season-card{
+    position:relative;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 16px 16px 20px;
+    margin-bottom:14px;
+    background:rgba(22,18,32,0.62);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    overflow:hidden;
+  }
+  .season-card::before{
+    content:'';
+    position:absolute;
+    left:0;top:0;bottom:0;
+    width:4px;
+  }
+  .season-card.winter::before{background:var(--rest);}
+  .season-card.spring::before{background:var(--income);}
+  .season-card.summer::before{background:var(--creative);}
+  .season-card.autumn-early::before{background:var(--foundation);}
+  .season-card.autumn-late::before{background:var(--pmdd);}
+  .season-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:2px;flex-wrap:wrap;}
+  .season-name{font-family:'Fraunces', serif;font-size:1.2rem;font-weight:600;margin:0;}
+  .season-days{font-size:0.82rem;font-weight:600;color:var(--ink-soft);white-space:nowrap;}
+  .season-hormone{font-size:0.85rem;color:var(--ink-soft);margin:0 0 12px;}
+  .season-card.autumn-late .season-hormone{color:var(--pmdd);font-weight:600;}
+  .dot.pmdd{background:var(--pmdd);}
+  .adhd-note{
+    font-size:0.85rem;
+    font-style:italic;
+    color:var(--ink-soft);
+    line-height:1.5;
+    margin:10px 0 0;
+    padding-top:10px;
+    border-top:1px dashed var(--line);
+  }
+  .adhd-note b{font-style:normal;color:var(--ink);}
+  .track-note{
+    background:var(--pmdd-bg);
+    border-radius:10px;
+    padding:14px 16px;
+    font-size:0.88rem;
+    line-height:1.55;
+    color:var(--ink);
+    margin:0 0 18px;
+  }
+  .track-note b{color:var(--pmdd);}
+  .cycle-bar{
+    display:flex;
+    width:100%;
+    height:28px;
+    border-radius:8px;
+    overflow:hidden;
+    margin:6px 0 22px;
+    font-size:0;
+  }
+  .cycle-bar span{
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Work Sans', sans-serif;
+    font-size:0.7rem;font-weight:600;color:#fff;
+  }
+  .cb-winter{background:var(--rest);flex:5;}
+  .cb-spring{background:var(--income);flex:8;}
+  .cb-summer{background:var(--creative);flex:3;}
+  .cb-autumn-e{background:var(--foundation);flex:7;}
+  .cb-autumn-l{background:var(--pmdd);flex:5;}
+
+  /* Collapsible cards */
+  .card-toggle-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+  }
+  .card-toggle-header .card-chev{
+    flex-shrink:0;
+    font-size:1.4rem;
+    color:var(--ink-soft);
+    transition:transform 0.2s;
+    line-height:1;
+  }
+  .card-toggle-header.open .card-chev{transform:rotate(90deg);color:var(--income);}
+  .card-toggle-body{display:none;margin-top:12px;}
+  .card-toggle-body.open{display:block;}
+  .day-card.is-today .card-toggle-header .card-chev{color:var(--income);}
+  .hint{font-size:0.85rem;color:var(--ink-soft);font-style:italic;line-height:1.4;}
+  .season-card.you-are-here{border-color:var(--income);box-shadow:0 0 0 1px var(--income), 0 0 24px rgba(236,30,130,0.25);}
+  .here-badge{
+    display:inline-block;
+    font-size:0.68rem;
+    font-weight:600;
+    color:var(--income);
+    background:var(--income-bg);
+    padding:2px 8px;
+    border-radius:20px;
+    margin-left:8px;
+    vertical-align:middle;
+  }
+  .dot{
+    width:9px;height:9px;border-radius:50%;
+    margin-top:5px;flex-shrink:0;
+  }
+  .dot.income{background:var(--income);}
+  .dot.creative{background:var(--creative);}
+  .dot.foundation{background:var(--foundation);}
+  .dot.rest{background:var(--rest);}
+  .hrs{
+    color:var(--ink-soft);
+    font-variant-numeric:tabular-nums;
+    white-space:nowrap;
+    font-size:0.85rem;
+  }
+  .legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    margin:18px 0 26px;
+    padding:14px 16px;
+    background:rgba(22,18,32,0.62);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border:1px solid var(--line);
+    border-radius:10px;
+    font-size:0.82rem;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex;align-items:center;gap:6px;}
+  .legend .dot{margin-top:0;}
+
+  .flag{
+    background:var(--foundation-bg);
+    border-radius:10px;
+    padding:14px 16px;
+    font-size:0.88rem;
+    line-height:1.5;
+    color:var(--ink);
+    margin-top:8px;
+  }
+  .flag b{color:var(--foundation);}
+
+  /* Monthly */
+  .month{
+    position:relative;
+    padding:0 0 26px 24px;
+    border-left:2px solid var(--line);
+    margin-left:6px;
+  }
+  .month:last-child{border-left:2px solid transparent;padding-bottom:0;}
+  .month::before{
+    content:'';
+    position:absolute;
+    left:-7px;top:2px;
+    width:12px;height:12px;
+    border-radius:50%;
+    background:var(--income);
+    border:3px solid var(--paper);
+  }
+  .month-label{
+    font-size:0.78rem;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    color:var(--ink-soft);
+    margin-bottom:2px;
+  }
+  .month-title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.25rem;
+    margin:0 0 8px;
+  }
+  .month-body{
+    font-size:0.93rem;
+    line-height:1.55;
+  }
+  .month-body ul{margin:6px 0 10px;padding-left:18px;}
+  .month-body li{margin-bottom:4px;}
+  .shift{
+    display:inline-block;
+    font-size:0.78rem;
+    font-weight:600;
+    padding:2px 9px;
+    border-radius:20px;
+    margin-top:6px;
+  }
+  .shift.up{background:var(--income-bg);color:var(--income);}
+  .shift.down{background:var(--creative-bg);color:var(--creative);}
+  .shift.new{background:var(--rest-bg);color:var(--rest);}
+
+  .checkpoint{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:0.95rem;
+    color:var(--income);
+    margin-top:10px;
+  }
+
+  /* Editable checklists */
+  .list-card{
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 16px 12px;
+    margin-bottom:14px;
+    background:rgba(22,18,32,0.62);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  }
+  .list-card h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.1rem;
+    margin:0 0 10px;
+  }
+  .item-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 0;
+    border-top:1px solid var(--line);
+  }
+  .item-row:first-of-type{border-top:none;}
+  .item-row input[type="checkbox"]{
+    width:18px;height:18px;
+    flex-shrink:0;
+    accent-color:var(--foundation);
+  }
+  .item-text{
+    flex:1;
+    font-size:0.93rem;
+    line-height:1.4;
+    outline:none;
+    padding:2px 4px;
+    border-radius:4px;
+  }
+  .item-text:focus{background:var(--foundation-bg);}
+  .item-text.done{
+    color:var(--ink-soft);
+    text-decoration:line-through;
+  }
+  .remove-btn{
+    background:none;
+    border:none;
+    color:var(--ink-soft);
+    font-size:1.1rem;
+    line-height:1;
+    cursor:pointer;
+    padding:4px 6px;
+    flex-shrink:0;
+  }
+  .remove-btn:hover{color:var(--rest);}
+  .add-row{
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+  }
+  .add-row input{
+    flex:1;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:9px 10px;
+    font-family:'Work Sans', sans-serif;
+    font-size:0.9rem;
+    background:var(--paper);
+  }
+  .add-row input:focus{outline:2px solid var(--foundation);}
+  .add-btn{
+    background:var(--foundation);
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    padding:0 16px;
+    font-size:0.9rem;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .add-btn:active{opacity:0.8;}
+  .empty-note{
+    color:var(--ink-soft);
+    font-size:0.85rem;
+    padding:6px 0;
+  }
+  .day-tag{
+    display:inline-block;
+    font-size:0.72rem;
+    font-weight:600;
+    color:var(--foundation);
+    background:var(--foundation-bg);
+    padding:2px 8px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+</style>
+</head>
+<body>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+<div class="wrap">
+
+  <h1>Your working plan</h1>
+  <p class="subhead">Treat this like a brief you've been handed. Income-generating work first, foundation work protected, nothing improvised.</p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showView('weekly', this)">Weekly rhythm</button>
+    <button class="tab" onclick="showView('monthly', this)">6-month roadmap</button>
+    <button class="tab" onclick="showView('cycle', this)">Cycle</button>
+    <button class="tab" onclick="showView('lists', this)">Lists</button>
+  </div>
+
+  <!-- WEEKLY VIEW -->
+  <div id="weekly" class="view active">
+
+    <div class="flag"><b>One project per working day, held the whole day.</b> Task-switching between projects is the thing to design around — so each day below is a single focus, not a set of blocks. The only recurring exception is the daily anchor: short, fixed-time, and habitual enough that it doesn't function as a switch.</div>
+
+    <div class="day-card">
+      <p class="day-name">Every working day</p>
+      <p class="day-focus">Daily anchor — same time, same task, every day</p>
+      <div class="block"><span class="dot creative"></span><span>Substack/Instagram — edit and schedule from existing written content (the writing itself already happened on Monday/weekends)</span><span class="hrs">30m</span></div>
+    </div>
+
+    <div class="day-card">
+      <p class="day-name">Tuesday &amp; Wednesday</p>
+      <p class="day-focus">Recovery Skool — two protected days, one project</p>
+      <div class="block"><span class="dot income"></span><span>Recovery/self-reclamation Skool — turning the framework into real content: modules, welcome sequence, written pieces, then community engagement once live</span><span class="hrs">6h/day</span></div>
+    </div>
+
+    <div class="day-card">
+      <p class="day-name">Thursday</p>
+      <p class="day-focus">Poetry Skool — one protected day, one project</p>
+      <div class="block"><span class="dot income"></span><span>Poetry Skool — build/launch tasks and community engagement together, solo pace</span><span class="hrs">6h</span></div>
+    </div>
+
+    <div class="day-card">
+      <p class="day-name">Friday</p>
+      <p class="day-focus">One rotating focus — pick a single thing, not several</p>
+      <div class="block"><span class="dot income"></span><span>Ebook draft, ADHD app / product listing admin, or whichever Skool is behind — choose one per week and stay in it</span><span class="hrs">5h</span></div>
+      <div class="block"><span class="dot foundation"></span><span>Week review + contest-link processing, same "admin mode" as the rest of the day rather than a separate switch</span><span class="hrs">1h</span></div>
+    </div>
+
+    <div class="day-card">
+      <p class="day-name">Every other Friday</p>
+      <p class="day-focus">Reel filming — replaces the rotating focus that day</p>
+      <div class="block"><span class="dot foundation"></span><span>Set up tripod once, film several handwriting reels back to back (vary pieces/backdrop so they don't look identical)</span><span class="hrs">1.5h</span></div>
+      <div class="block"><span class="dot foundation"></span><span>Quick edit/caption pass, add to the reel ready-pile</span><span class="hrs">30m</span></div>
+    </div>
+
+    <div class="day-card rest">
+      <p class="day-name">Monday &amp; weekends</p>
+      <p class="day-focus">Writing only — no admin, no business tasks</p>
+      <div class="block"><span class="dot rest"></span><span>Daily writing continues here as it already does — this is where the Substack/IG content pool keeps refilling itself</span></div>
+      <div class="block"><span class="dot rest"></span><span>Mini-course and poetry collection live here too, if and only if there's a genuine pull to do them — not scheduled, not obligatory</span></div>
+      <div class="block"><span class="dot rest"></span><span>Buffer day if a working day overruns, or work longer Tue–Fri instead</span></div>
+    </div>
+
+    <div class="flag"><b>Standing exception —</b> if the Employment Tribunal / ACAS process needs attention, it takes priority over the day's single focus. Keep half a day flexible in weeks it's active — treat it as that day's one project, not an add-on.</div>
+
+    <button class="notes-toggle" id="notes-toggle" onclick="toggleNotes()"><span class="chev">&rsaquo;</span> More notes</button>
+    <div class="notes-body" id="notes-body">
+
+      <div class="legend">
+        <span><span class="dot income"></span>Income-first</span>
+        <span><span class="dot foundation"></span>Foundation</span>
+        <span><span class="dot creative"></span>Daily anchor (small, fixed)</span>
+        <span><span class="dot rest"></span>Writing-only, no admin</span>
+      </div>
+
+      <div class="flag"><b>See the Cycle tab</b> for how a heavy Tuesday/Wednesday or Skool-launch week should actually shift depending on where you are in your cycle — the week above is the default, not a fixed law.</div>
+
+      <div class="flag"><b>Instagram CTA default —</b> Substack, until the Skools launch (then Recovery Skool takes over as primary). Give the Magic Dopamine Ball its own dedicated post occasionally rather than folding it into every caption. One clear ask per post, not several.</div>
+
+      <div class="flag"><b>Backburnered for ~6 months —</b> YouTube is fully parked, not just de-prioritized. Poetry collection curation and the mini-course are optional spare-time footnotes on Monday/weekends only — no slot, no obligation, no guilt if they don't move.</div>
+
+      <div class="flag"><b>Poetry Skool — solo for now.</b> Building and running it alone; the idea of bringing in another poet to co-run is parked until it's live and going well — no planning or splitting needed for that yet.</div>
+
+      <div class="flag"><b>Recovery Skool is the primary offer.</b> Tuesday and Wednesday are both dedicated to it. Two ebooks are planned at 6 hours each for a first draft — kept deliberately small in scope so "quick" stays true.</div>
+
+      <div class="flag"><b>Looking ahead, not yet active —</b> possible future 1:1 coaching clients from Recovery Skool, and a monthly local group coaching night with an art activity. Both would draw on content already built by then — nothing to plan now, just noted so it isn't lost.</div>
+
+    </div>
+
+  </div>
+
+  <!-- MONTHLY VIEW -->
+  <div id="monthly" class="view">
+
+    <div class="month">
+      <p class="month-label">Month 1</p>
+      <p class="month-title">Build Recovery Skool (primary), Poetry Skool (secondary)</p>
+      <div class="month-body">
+        <ul>
+          <li>Recovery/self-reclamation Skool takes priority — the 8-stage spine turned into modules, welcome sequence, first written pieces</li>
+          <li>Poetry Skool built solo, lighter pace — structure, seed content from the existing archive</li>
+          <li>Ebook backburnered to opportunistic time, not protected — a deliberate trade for now</li>
+          <li>Instagram funnel messaging shifts toward "community coming soon" for both Skools</li>
+          <li>Magic Dopamine Ball — list on Etsy + Gumroad (it's live but has never been listed anywhere but bio)</li>
+        </ul>
+        <span class="shift up">Recovery Skool hours up (8–10h/week while the spine becomes real content)</span>
+      </div>
+    </div>
+
+    <div class="month">
+      <p class="month-label">Month 2</p>
+      <p class="month-title">Launch Recovery Skool, keep Poetry Skool moving</p>
+      <div class="month-body">
+        <ul>
+          <li>Recovery Skool opens — founding-member offer, Instagram/coaching account relaunch, DMs from past supporters (e.g. Michelle) as a soft outreach list</li>
+          <li>Poetry Skool opens on its own lighter timeline, cross-referenced but not merged</li>
+          <li>Magic Dopamine Ball gets its proper Instagram launch — dedicated post/Stories, not just a bio link</li>
+        </ul>
+        <span class="checkpoint">Checkpoint: is Recovery Skool converting — DMs, saves, asks to join — or does the offer need reworking?</span>
+      </div>
+    </div>
+
+    <div class="month">
+      <p class="month-label">Month 3</p>
+      <p class="month-title">Ship, then start the next thing</p>
+      <div class="month-body">
+        <ul>
+          <li>Recovery Skool moves to lighter maintenance rhythm once launched and stable</li>
+          <li>Ebook 1 ships; ebook 2 begins</li>
+          <li>ADHD app listing goes live if not already</li>
+        </ul>
+        <span class="shift down">Skool hours drop back to maintenance level</span>
+      </div>
+    </div>
+
+    <div class="month">
+      <p class="month-label">Month 4</p>
+      <p class="month-title">Review what's actually earning</p>
+      <div class="month-body">
+        <ul>
+          <li>Look honestly at which stream is converting — double down there over the others</li>
+          <li>Ebook 2 continues; contest submissions from the shortlist ongoing in writing time</li>
+          <li>Skool community deepens — feedback from founding members shapes next content</li>
+        </ul>
+        <span class="checkpoint">Checkpoint: nine-month goal pace-check — ahead, on track, or behind?</span>
+      </div>
+    </div>
+
+    <div class="month">
+      <p class="month-label">Month 5</p>
+      <p class="month-title">Scale the winner</p>
+      <div class="month-body">
+        <ul>
+          <li>Reallocate hours toward whichever stream is proving itself (Skool, Substack, or ebooks)</li>
+          <li>First real gap opens for the mini-course, poetry collection, or YouTube if income streams are stable — none required, all optional</li>
+        </ul>
+        <span class="shift new">Optional: book or poetry-collection time reintroduced if capacity allows</span>
+      </div>
+    </div>
+
+    <div class="month">
+      <p class="month-label">Month 6</p>
+      <p class="month-title">Midpoint review</p>
+      <div class="month-body">
+        <ul>
+          <li>Full check against the £20k floor target — what's the real run-rate so far</li>
+          <li>Decide what the next three months protect and what gets dropped</li>
+          <li>Re-plan the weekly rhythm for months 7–9 based on actual data, not the original guess</li>
+        </ul>
+        <span class="checkpoint">This is the point to rebuild this document, not just keep following it.</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CYCLE VIEW -->
+  <div id="cycle" class="view">
+
+    <p class="subhead" style="margin-bottom:10px;">A ~28-day cycle as a rough default. Your real numbers will vary — track 2–3 cycles and come back to adjust the day ranges below.</p>
+
+    <div class="home-card" style="padding:14px 16px;">
+      <p style="font-size:0.85rem;font-weight:600;margin:0 0 8px;">Where am I right now?</p>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <input type="date" id="cycle-start" value="2026-08-22" style="flex:1;min-width:140px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--paper);color:var(--ink);font-family:'Work Sans', sans-serif;font-size:0.9rem;">
+        <input type="number" id="cycle-length" min="18" max="45" value="25" style="width:64px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--paper);color:var(--ink);font-family:'Work Sans', sans-serif;font-size:0.9rem;">
+        <button class="btn-ghost-cycle" onclick="saveCycleStart()" style="background:var(--income);color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:0.85rem;font-weight:600;cursor:pointer;">Set</button>
+      </div>
+      <p class="hint" style="margin:6px 0 0;">Start date of your last period, and your average cycle length in days.</p>
+      <p id="cycle-today-note" class="hint" style="margin:10px 0 0;"></p>
+    </div>
+
+    <div class="track-note" style="margin-top:0;"><b>Hyperfocus doesn't follow the seasons.</b> Keep a running list of the next 2–3 things worth a long uninterrupted stretch (a Skool module, an ebook draft), so whenever hyperfocus shows up — in any season — you drop into that list instead of the calendar's plan for the day. Leave a soft buffer after any hyperfocus block; nothing time-sensitive should sit right after one.</div>
+
+    <div class="cycle-bar" aria-hidden="true">
+      <span class="cb-winter">W</span><span class="cb-spring">Sp</span><span class="cb-summer">Su</span><span class="cb-autumn-e">Ae</span><span class="cb-autumn-l">Al</span>
+    </div>
+
+    <div class="season-card winter">
+      <div class="season-top">
+        <p class="season-name">Winter — menstrual</p>
+        <p class="season-days">Days 1–5 (~5 days)</p>
+      </div>
+      <p class="season-hormone">Oestrogen and progesterone both low. Lowest energy point of the month.</p>
+      <div class="block"><span class="dot rest"></span><span>Rest as the goal, not a fallback — this overlaps your Monday/weekend writing-only days if timing lines up</span></div>
+      <div class="block"><span class="dot foundation"></span><span>Admin, reflection, light review only — no new launches, no hard deadlines due here</span></div>
+      <p class="adhd-note"><b>ADHD:</b> if hyperfocus does show up here, let it — don't override it just because winter "should" be rest. Rest is the default, not a rule.</p>
+    </div>
+
+    <div class="season-card spring">
+      <div class="season-top">
+        <p class="season-name">Spring — follicular</p>
+        <p class="season-days">Days 6–13 (~8 days)</p>
+      </div>
+      <p class="season-hormone">Oestrogen climbing steadily. Energy, mood, and focus rise through this window.</p>
+      <div class="block"><span class="dot income"></span><span>Best window for the Recovery Skool build days, Skool launches, hard creative work, pitching</span></div>
+      <div class="block"><span class="dot income"></span><span>Front-load the month's ambitious tasks from the 6-month roadmap here where the timing allows it</span></div>
+      <p class="adhd-note"><b>ADHD:</b> your best window for hyperfocus-friendly deep work — but treat it as opportunity, not obligation. If it doesn't arrive, drop to lighter tasks rather than forcing it.</p>
+    </div>
+
+    <div class="season-card summer">
+      <div class="season-top">
+        <p class="season-name">Summer — ovulation</p>
+        <p class="season-days">Days 14–16 (~2–3 days)</p>
+      </div>
+      <p class="season-hormone">Peak energy, confidence, and sociability. Short window.</p>
+      <div class="block"><span class="dot income"></span><span>Best window for visibility work — reel filming days, Instagram launch posts, community engagement pushes</span></div>
+      <div class="block"><span class="dot foundation"></span><span>Don't over-plan it in advance — use it when it lands, not on a fixed schedule</span></div>
+      <p class="adhd-note"><b>ADHD:</b> a natural fit for novelty-driven tasks (new content, launches) — the short window suits a burst rather than sustained focus.</p>
+    </div>
+
+    <div class="season-card autumn-early">
+      <div class="season-top">
+        <p class="season-name">Autumn — early luteal</p>
+        <p class="season-days">Days 17–23 (~7 days)</p>
+      </div>
+      <p class="season-hormone">Oestrogen and progesterone both still up. Still capable, though energy is past its peak.</p>
+      <div class="block"><span class="dot foundation"></span><span>Good for detail work — editing, admin, finishing what spring's Skool/Substack pushes started, week reviews</span></div>
+      <p class="adhd-note"><b>ADHD:</b> finishing is harder than starting — treat this as "resume the hyperfocus list" rather than fresh admin, so momentum carries instead of a cold start.</p>
+    </div>
+
+    <div class="season-card autumn-late">
+      <div class="season-top">
+        <p class="season-name">Autumn — late luteal</p>
+        <p class="season-days">Days 24–28 (~5 days)</p>
+      </div>
+      <p class="season-hormone">PMDD window. Treat as protected, structural rest — not "be gentler on a normal week."</p>
+      <div class="block"><span class="dot pmdd"></span><span>Block it on the calendar in advance, like a holiday — don't leave it to willpower on the day</span></div>
+      <div class="block"><span class="dot pmdd"></span><span>No new commitments agreed here if avoidable — Skool partnerships, contracts, big asks all wait</span></div>
+      <div class="block"><span class="dot pmdd"></span><span>Shrink the week to maintenance only: whatever keeps things running, not what you'd like to achieve</span></div>
+      <div class="block"><span class="dot pmdd"></span><span>Thin the calendar — fewer meetings, more solo time, lower output bar treated as deliberate, not a failure</span></div>
+      <p class="adhd-note"><b>ADHD:</b> executive function is already harder here independent of mood — keep the maintenance list as short, concrete checklist items, not open-ended "catch up on admin."</p>
+    </div>
+
+    <div class="track-note"><b>Worth doing first:</b> track 2–3 cycles (dates, energy, mood, PMDD onset) before treating these day ranges as fixed.</div>
+
+  </div>
+
+  <!-- LISTS VIEW -->
+  <div id="lists" class="view">
+    <p class="subhead" style="margin-bottom:14px;">Tap to check off, click text to edit, + to add. Saved automatically on this device.</p>
+
+    <div class="subtabs">
+      <button class="subtab active" onclick="showSublist('housework', this)">Housework</button>
+      <button class="subtab" onclick="showSublist('admin', this)">Weekly admin</button>
+      <button class="subtab" onclick="showSublist('body', this)">Body</button>
+    </div>
+
+    <div id="housework-sub" class="sublist" style="display:block;">
+      <div class="list-card">
+        <span class="day-tag">Editable</span>
+        <div id="housework-list"></div>
+        <div class="add-row">
+          <input type="text" id="housework-input" placeholder="Add a task…" onkeydown="if(event.key==='Enter'){addItem('housework')}">
+          <button class="add-btn" onclick="addItem('housework')">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="admin-sub" class="sublist" style="display:none;">
+      <div class="list-card">
+        <span class="day-tag">Editable</span>
+        <div id="admin-list"></div>
+        <div class="add-row">
+          <input type="text" id="admin-input" placeholder="Add a task…" onkeydown="if(event.key==='Enter'){addItem('admin')}">
+          <button class="add-btn" onclick="addItem('admin')">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="body-sub" class="sublist" style="display:none;">
+      <div class="list-card">
+        <span class="day-tag">Editable</span>
+        <div id="body-list"></div>
+        <div class="add-row">
+          <input type="text" id="body-input" placeholder="Add something…" onkeydown="if(event.key==='Enter'){addItem('body')}">
+          <button class="add-btn" onclick="addItem('body')">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showSublist(id, btn){
+  document.querySelectorAll('.sublist').forEach(s => s.style.display = 'none');
+  document.getElementById(id + '-sub').style.display = 'block';
+  document.querySelectorAll('.subtab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function showView(id, btn){
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// --- Editable checklists (housework / admin) ---
+const defaults = {
+  housework: [
+    {text:'Wash + change bedding', done:false},
+    {text:'Food shop', done:false},
+    {text:'Bins out', done:false},
+    {text:'Hoover / floors', done:false},
+    {text:'Bathroom clean', done:false}
+  ],
+  admin: [
+    {text:'Check bank/budget', done:false},
+    {text:'Reply to outstanding emails', done:false},
+    {text:'Process saved contest links → list + calendar', done:false},
+    {text:'ET1 / tribunal admin (if active)', done:false}
+  ],
+  body: [
+    {text:'Move — walk, stretch, whatever counts today', done:false},
+    {text:'Water', done:false},
+    {text:'Proper lunch break away from the desk', done:false},
+    {text:'Get outside', done:false},
+    {text:'Wind-down before bed', done:false}
+  ]
+};
+
+function loadList(key){
+  const raw = localStorage.getItem('plan-' + key);
+  if(raw){
+    try{ return JSON.parse(raw); }catch(e){}
+  }
+  return defaults[key];
+}
+
+function saveList(key, items){
+  localStorage.setItem('plan-' + key, JSON.stringify(items));
+}
+
+function renderList(key){
+  const items = loadList(key);
+  const container = document.getElementById(key + '-list');
+  container.innerHTML = '';
+  if(items.length === 0){
+    container.innerHTML = '<div class="empty-note">Nothing here yet — add something below.</div>';
+    return;
+  }
+  items.forEach((item, i) => {
+    const row = document.createElement('div');
+    row.className = 'item-row';
+
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = item.done;
+    cb.onchange = () => {
+      const list = loadList(key);
+      list[i].done = cb.checked;
+      saveList(key, list);
+      renderList(key);
+    };
+
+    const text = document.createElement('div');
+    text.className = 'item-text' + (item.done ? ' done' : '');
+    text.contentEditable = true;
+    text.innerText = item.text;
+    text.onblur = () => {
+      const list = loadList(key);
+      list[i].text = text.innerText.trim();
+      saveList(key, list);
+    };
+
+    const del = document.createElement('button');
+    del.className = 'remove-btn';
+    del.innerHTML = '&times;';
+    del.onclick = () => {
+      const list = loadList(key);
+      list.splice(i, 1);
+      saveList(key, list);
+      renderList(key);
+    };
+
+    row.appendChild(cb);
+    row.appendChild(text);
+    row.appendChild(del);
+    container.appendChild(row);
+  });
+}
+
+function addItem(key){
+  const input = document.getElementById(key + '-input');
+  const val = input.value.trim();
+  if(!val) return;
+  const list = loadList(key);
+  list.push({text: val, done: false});
+  saveList(key, list);
+  input.value = '';
+  renderList(key);
+}
+
+renderList('housework');
+renderList('admin');
+renderList('body');
+
+// --- Weekly task check-off (auto-resets each new week) ---
+function getWeekKey(){
+  const d = new Date();
+  const onejan = new Date(d.getFullYear(),0,1);
+  const week = Math.ceil((((d - onejan) / 86400000) + onejan.getDay()+1)/7);
+  return d.getFullYear() + '-w' + week;
+}
+
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem('weekly-progress');
+    const data = raw ? JSON.parse(raw) : null;
+    if(!data || data.week !== getWeekKey()) return {week:getWeekKey(), done:[]};
+    return data;
+  }catch(e){ return {week:getWeekKey(), done:[]}; }
+}
+
+function saveProgress(progress){
+  try{ localStorage.setItem('weekly-progress', JSON.stringify(progress)); }
+  catch(e){}
+}
+
+function initTaskCheckoff(){
+  const blocks = document.querySelectorAll('#weekly .day-card .block');
+  const progress = loadProgress();
+  blocks.forEach((b,i) => {
+    b.dataset.taskId = i;
+    if(progress.done.includes(i)) b.classList.add('done');
+    b.addEventListener('click', () => {
+      b.classList.toggle('done');
+      const p = loadProgress();
+      const id = Number(b.dataset.taskId);
+      if(b.classList.contains('done')){
+        if(!p.done.includes(id)) p.done.push(id);
+      } else {
+        p.done = p.done.filter(x => x !== id);
+      }
+      p.week = getWeekKey();
+      saveProgress(p);
+    });
+  });
+}
+
+function highlightToday(){
+  const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const today = dayNames[new Date().getDay()];
+  document.querySelectorAll('#weekly .day-card').forEach(card => {
+    const nameEl = card.querySelector('.day-name');
+    if(!nameEl) return;
+    if(nameEl.textContent.includes(today)){
+      card.classList.add('is-today');
+      const badge = document.createElement('span');
+      badge.className = 'today-badge';
+      badge.textContent = 'Today';
+      nameEl.appendChild(badge);
+    }
+  });
+}
+
+initTaskCheckoff();
+highlightToday();
+
+function makeCollapsible(cardSelector, headerSelectors, accordion){
+  document.querySelectorAll(cardSelector).forEach(card => {
+    const headerEls = headerSelectors.map(sel => card.querySelector(sel)).filter(Boolean);
+    if(headerEls.length === 0) return;
+    const header = document.createElement('div');
+    header.className = 'card-toggle-header';
+    const textWrap = document.createElement('div');
+    textWrap.style.flex = '1';
+    card.insertBefore(header, headerEls[0]);
+    headerEls.forEach(el => textWrap.appendChild(el));
+    header.appendChild(textWrap);
+    const chev = document.createElement('span');
+    chev.className = 'card-chev';
+    chev.innerHTML = '&rsaquo;';
+    header.appendChild(chev);
+    const body = document.createElement('div');
+    body.className = 'card-toggle-body';
+    Array.from(card.children).forEach(child => {
+      if(child !== header) body.appendChild(child);
+    });
+    card.appendChild(body);
+    header.addEventListener('click', () => {
+      const isOpen = body.classList.contains('open');
+      if(accordion){
+        document.querySelectorAll(cardSelector + ' .card-toggle-body.open').forEach(b => {
+          b.classList.remove('open');
+          const h = b.parentElement.querySelector('.card-toggle-header');
+          if(h) h.classList.remove('open');
+        });
+      }
+      if(!isOpen){ body.classList.add('open'); header.classList.add('open'); }
+      else { header.classList.remove('open'); }
+    });
+  });
+}
+
+makeCollapsible('#weekly .day-card', ['.day-name', '.day-focus'], true);
+makeCollapsible('#monthly .month', ['.month-label', '.month-title'], true);
+makeCollapsible('#cycle .season-card', ['.season-top', '.season-hormone'], true);
+
+document.querySelectorAll('#weekly .day-card.is-today .card-toggle-body').forEach(b => {
+  b.classList.add('open');
+  const h = b.parentElement.querySelector('.card-toggle-header');
+  if(h) h.classList.add('open');
+});
+
+// --- Cycle tracking ---
+const seasonRanges28 = [
+  {key:'winter', from:1, to:5},
+  {key:'spring', from:6, to:13},
+  {key:'summer', from:14, to:16},
+  {key:'autumn-early', from:17, to:23},
+  {key:'autumn-late', from:24, to:28}
+];
+const seasonNames = {winter:'winter', spring:'spring', summer:'summer', 'autumn-early':'early autumn', 'autumn-late':'late autumn (PMDD window)'};
+
+function getScaledRanges(length){
+  const factor = length / 28;
+  const ranges = seasonRanges28.map(s => ({key:s.key, from:Math.round(s.from*factor) || 1, to:Math.round(s.to*factor)}));
+  ranges[ranges.length-1].to = length;
+  return ranges;
+}
+
+function getCycleDay(startDateStr, length){
+  const start = new Date(startDateStr + 'T00:00:00');
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const diffDays = Math.floor((today - start) / 86400000);
+  return ((diffDays % length) + length) % length + 1;
+}
+
+function seasonForDay(day, length){
+  const ranges = getScaledRanges(length);
+  return (ranges.find(s => day >= s.from && day <= s.to) || ranges[0]).key;
+}
+
+function updateCycleDisplay(){
+  const startDateStr = localStorage.getItem('cycle-start-date');
+  const length = Number(localStorage.getItem('cycle-length')) || 25;
+  const note = document.getElementById('cycle-today-note');
+  document.querySelectorAll('.season-card').forEach(c => {
+    c.classList.remove('you-are-here');
+    const badge = c.querySelector('.here-badge');
+    if(badge) badge.remove();
+  });
+  if(!startDateStr){
+    if(note) note.textContent = 'Set your last period start date to see where you are today.';
+    return;
+  }
+  const day = getCycleDay(startDateStr, length);
+  const seasonKey = seasonForDay(day, length);
+  if(note) note.textContent = 'Cycle day ' + day + ' of ' + length + ' — currently in ' + seasonNames[seasonKey] + '.';
+  const card = document.querySelector('#cycle .season-card.' + seasonKey);
+  if(card){
+    card.classList.add('you-are-here');
+    const nameEl = card.querySelector('.season-name');
+    if(nameEl && !nameEl.querySelector('.here-badge')){
+      const badge = document.createElement('span');
+      badge.className = 'here-badge';
+      badge.textContent = 'You are here';
+      nameEl.appendChild(badge);
+    }
+    document.querySelectorAll('#cycle .season-card .card-toggle-body.open').forEach(b => {
+      b.classList.remove('open');
+      const h = b.parentElement.querySelector('.card-toggle-header');
+      if(h) h.classList.remove('open');
+    });
+    const body = card.querySelector('.card-toggle-body');
+    const header = card.querySelector('.card-toggle-header');
+    if(body) body.classList.add('open');
+    if(header) header.classList.add('open');
+  }
+}
+
+function saveCycleStart(){
+  const val = document.getElementById('cycle-start').value;
+  const lengthVal = Number(document.getElementById('cycle-length').value) || 25;
+  if(!val) return;
+  localStorage.setItem('cycle-start-date', val);
+  localStorage.setItem('cycle-length', lengthVal);
+  updateCycleDisplay();
+}
+
+const savedStart = localStorage.getItem('cycle-start-date');
+const savedLength = localStorage.getItem('cycle-length');
+if(savedStart) document.getElementById('cycle-start').value = savedStart;
+document.getElementById('cycle-length').value = savedLength || 25;
+updateCycleDisplay();
+
+function toggleNotes(){
+  document.getElementById('notes-body').classList.toggle('open');
+  document.getElementById('notes-toggle').classList.toggle('open');
+}
+</script>
+</body>
+</html>
