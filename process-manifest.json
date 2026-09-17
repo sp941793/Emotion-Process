@@ -1,0 +1,23 @@
+{
+  "name": "Process",
+  "short_name": "Process",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0B0A10",
+  "theme_color": "#0B0A10",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "process-icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "process-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
